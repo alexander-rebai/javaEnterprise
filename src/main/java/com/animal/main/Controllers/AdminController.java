@@ -3,10 +3,14 @@ package com.animal.main.Controllers;
 import com.animal.main.Entity.Accommodation;
 import com.animal.main.Entity.Animal;
 import com.animal.main.Service.AdminService;
+import com.animal.main.validator.IdentificationcodeValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -21,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private IdentificationcodeValidator identificationcodeValidator;
 
     @RequestMapping("/")
     public String welcomeUser(Model model) {
@@ -77,6 +84,8 @@ public class AdminController {
         if (animal.getSuitable_as_an_indoor_cat() == null) {
             animal.setSuitable_as_an_indoor_cat(false);
         }
+
+        identificationcodeValidator.validate(animal.getIdentification_code(), bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "admin/add_animal"; // Return the form page with errors

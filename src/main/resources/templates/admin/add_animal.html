@@ -108,10 +108,16 @@
                 type="text"
                 placeholder="Identification code"
                 class="form-control"
-                name="identification_code"
+                th:field="*{identification_code}"
                 id="idf_code"
               />
-              <font color="red" id="idf_code_error"></font>
+              <span style="color: red" id="idf_code_error"></span>
+              <span
+                th:if="${#fields.hasErrors('identification_code')}"
+                th:errorclass="error"
+                th:errors="*{identification_code}"
+                style="color: red"
+              ></span>
             </div>
           </div>
           <br />
@@ -147,7 +153,13 @@
           <div class="row">
             <div class="col">
               <label>Date of birth</label>
-              <input type="date" required name="dob" class="form-control" />
+              <input
+                type="date"
+                required
+                name="dob"
+                class="form-control"
+                th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
+              />
             </div>
           </div>
           <br />
@@ -160,6 +172,7 @@
                 name="medical_expense"
                 class="form-control"
                 placeholder="Medical Expense"
+                value="0"
               />
             </div>
           </div>

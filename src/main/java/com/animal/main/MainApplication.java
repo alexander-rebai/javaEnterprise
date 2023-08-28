@@ -3,6 +3,7 @@ package com.animal.main;
 import com.animal.main.DAO.AnimalRepo;
 import com.animal.main.DAO.UserRepo;
 import com.animal.main.Entity.User;
+import com.animal.main.validator.IdentificationcodeValidator;
 
 import java.util.Locale;
 
@@ -21,6 +22,11 @@ public class MainApplication implements CommandLineRunner {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
 		slr.setDefaultLocale(Locale.ENGLISH);
 		return slr;
+	}
+
+	@Bean
+	public IdentificationcodeValidator identificationcodeValidator() {
+		return new IdentificationcodeValidator();
 	}
 
 	public static void main(String[] args) {

@@ -14,7 +14,7 @@ public class Accommodation {
     @Max(value = 300, message = "Value must be at most 300")
     private int penCode1;
 
-    @Min(value = 50, message = "Value must be at least 50")
+    @Min(value = 100, message = "Value must be at least 100")
     @Max(value = 300, message = "Value must be at most 300")
     private int penCode2;
 

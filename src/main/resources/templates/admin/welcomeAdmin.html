@@ -206,7 +206,6 @@
                     required
                     class="form-control"
                     readonly
-                    value=""
                   />
                 </div>
               </div>
@@ -262,6 +261,20 @@
               </button>
             </form>
           </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const modalTriggerLinks =
+                document.querySelectorAll(".accomodation_id");
+              const animalIdInput = document.getElementById("animal_id");
+
+              modalTriggerLinks.forEach((link) => {
+                link.addEventListener("click", function () {
+                  const animalId = link.getAttribute("data-id");
+                  animalIdInput.value = animalId;
+                });
+              });
+            });
+          </script>
         </div>
       </div>
     </div>
