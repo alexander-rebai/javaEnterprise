@@ -6,11 +6,14 @@ import com.animal.main.Service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -54,7 +57,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/add_animal_form", method = RequestMethod.POST)
-    public String add_animal(@ModelAttribute("Animal") Animal animal, Model model) {
+    public String add_animal(@Valid Animal animal,
+            BindingResult bindingResult,
+            Model model) {
 
         // set empty checkbox values to false
         if (animal.getCan_be_used_with_older_children() == null) {
@@ -71,6 +76,10 @@ public class AdminController {
         }
         if (animal.getSuitable_as_an_indoor_cat() == null) {
             animal.setSuitable_as_an_indoor_cat(false);
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "admin/add_animal"; // Return the form page with errors
         }
 
         if (adminService.IDF_CODE_already_exists(animal.getIdentification_code()) == null) {
@@ -127,7 +136,8 @@ public class AdminController {
     }
 
     @RequestMapping("/add_animal")
-    public String add_animal() {
+    public String add_animal(Model model) {
+        model.addAttribute("animal", new Animal());
         return "admin/add_animal";
     }
 }

@@ -69,7 +69,7 @@
     <tr>
         <th>Name</th>
         <th>identification code</th>
-        <th>Ras</th>
+        <th>Race</th>
         <th>Sex</th>
         <th>Breed</th>
         <th>Date of birth</th>
@@ -87,7 +87,7 @@
     <tr th:each="a: ${getAllReservedAnimalsByUser}">
         <td th:text="${a.name}"></td>
         <td th:text="${a.identification_code}"></td>
-        <td th:text="${a.ras}"></td>
+        <td th:text="${a.race}"></td>
         <td th:text="${a.sex}"></td>
         <td th:text="${a.breed}"></td>
         <td th:text="${a.dob}"></td>

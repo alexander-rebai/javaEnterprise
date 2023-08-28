@@ -13,14 +13,14 @@ public class Animal {
     private int id;
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z]+", message = "username must be alphanumeric with no spaces")
+    @Pattern(regexp = "^[a-zA-Z]+", message = "name must be alphanumeric with no special characters or numbers")
     private String name;
 
     @Column(unique = true)
     private String identification_code;
 
-    @Pattern(regexp = "^(?:[a-zA-Z]*|[ ]*)$", message = "username must be alphanumeric with no spaces")
-    private String ras;
+    @Pattern(regexp = "^(?:[a-zA-Z]*|[ ]*)$", message = "Race must not contain special characters or numbers")
+    private String race;
 
     private String sex;
 
@@ -62,12 +62,12 @@ public class Animal {
         this.identification_code = identification_code;
     }
 
-    public String getRas() {
-        return ras;
+    public String getRace() {
+        return race;
     }
 
-    public void setRas(String ras) {
-        this.ras = ras;
+    public void setRace(String race) {
+        this.race = race;
     }
 
     public String getSex() {

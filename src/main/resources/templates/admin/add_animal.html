@@ -81,7 +81,7 @@
           name="myForm"
           th:action="@{/admin/add_animal_form}"
           method="POST"
-          onsubmit="return validateForm()"
+          th:object="${animal}"
         >
           <div class="row">
             <div class="col">
@@ -90,11 +90,15 @@
                 type="text"
                 placeholder="Name"
                 class="form-control"
-                name="name"
-                id="name"
+                th:field="*{name}"
               />
-              <font color="red" id="name_error"></font>
             </div>
+            <span
+              th:if="${#fields.hasErrors('name')}"
+              th:errorclass="error"
+              th:errors="*{name}"
+              style="color: red"
+            ></span>
           </div>
           <br />
           <div class="row">
@@ -113,15 +117,20 @@
           <br />
           <div class="row">
             <div class="col">
-              <label>Ras</label>
+              <label>race</label>
               <input
                 type="text"
-                placeholder="Ras"
+                placeholder="race"
                 class="form-control"
-                name="ras"
-                id="ras"
+                th:field="*{race}"
+                id="race"
               />
-              <font id="ras_error" color="red"></font>
+              <span
+                th:if="${#fields.hasErrors('race')}"
+                th:errorclass="error"
+                th:errors="*{race}"
+                style="color: red"
+              ></span>
             </div>
           </div>
           <br />
@@ -231,7 +240,7 @@
 
         let name = document.forms["myForm"]["name"].value;
         let idf_code = document.forms["myForm"]["idf_code"].value;
-        let ras = document.forms["myForm"]["ras"].value;
+        let race = document.forms["myForm"]["race"].value;
 
         if (name == "" || speical_CH.test(name) || numbers.test(name)) {
           document.getElementById("name_error").innerHTML =
@@ -251,12 +260,12 @@
           document.getElementById("idf_code_error").innerHTML = "";
         }
 
-        if (speical_CH.test(ras) || numbers.test(ras)) {
-          document.getElementById("ras_error").innerHTML =
-            "Ras may be empty, may not contain numbers or special characters";
+        if (speical_CH.test(race) || numbers.test(race)) {
+          document.getElementById("race_error").innerHTML =
+            "race may be empty, may not contain numbers or special characters";
           return false;
         } else {
-          document.getElementById("ras_error").innerHTML = "";
+          document.getElementById("race_error").innerHTML = "";
         }
       }
 
