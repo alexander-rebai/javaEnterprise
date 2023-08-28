@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    />
+
+    <title>User</title>
+    <style>
+      .navbar {
+        background-color: #007bd4;
+      }
+      .nav-link {
+        color: white;
+        padding-left: 10px;
+      }
+      .nav-link:hover {
+        color: white;
+        text-decoration: underline;
+      }
+      .username {
+        padding-left: 10px;
+        font-weight: bold;
+        color: #2b2b2b;
+      }
+      .table {
+        margin: auto;
+        width: 80%;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <a
+        class="navbar-brand"
+        href="/"
+        style="color: white; font-weight: bold; padding-left: 10px"
+        >Animal Shelter</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          <li class="nav-item active">
+            <a
+              class="nav-link"
+              th:href="@{'/user/reserved_page/' + ${LoggedUser.id}}"
+              >Reserved</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <font class="username">Welcome: </font
+    ><span class="username" th:text="${#authentication.getName()}"></span>
+
+    <br /><br />
+    <center>
+      <h5 style="font-family: 'cooper'">Animals present in shelter</h5>
+    </center>
+    <br />
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Animal Name</th>
+          <th>Breed</th>
+          <th>Date of birth</th>
+          <th>More Details</th>
+          <th>View Accomodations</th>
+          <th>Reserved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="a : ${All_animals}">
+          <td th:text="${a.name}"></td>
+          <td th:text="${a.breed}"></td>
+          <td th:text="${a.dob}"></td>
+          <td>
+            <a
+              th:href="@{'/user/animal_details/' + ${a.id}}"
+              class="btn btn-primary btn-sm"
+            >
+              Details
+            </a>
+          </td>
+          <td>
+            <a
+              th:href="@{'/user/view_accomodation/' + ${a.id}}"
+              class="btn btn-success btn-sm"
+            >
+              View Accomodation
+            </a>
+          </td>
+          <td th:text="${a.reserved}"></td>
+          <td>
+            <div th:if="${!a.reserved}">
+              <a
+                th:href="@{'/user/reserved_animal/' + ${LoggedUser.id} + '/' + ${a.id}}"
+                class="btn btn-success btn-sm"
+              >
+                Reserve Animal
+              </a>
+            </div>
+            <div th:if="${a.reserved && a.user_reserved_id == LoggedUser.id}">
+              <a
+                th:href="@{'/user/release_animal/' + ${LoggedUser.id} + '/' + ${a.id}}"
+                class="btn btn-warning btn-sm"
+              >
+                Release
+              </a>
+            </div>
+            <div th:if="${a.reserved && a.user_reserved_id != LoggedUser.id}">
+              Already Reserved
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

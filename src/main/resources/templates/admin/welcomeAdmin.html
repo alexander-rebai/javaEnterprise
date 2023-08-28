@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <title>Admin</title>
+    <style>
+      .navbar {
+        background-color: #007bd4;
+      }
+      .nav-link {
+        color: white;
+        padding-left: 10px;
+      }
+      .nav-link:hover {
+        color: white;
+        text-decoration: underline;
+      }
+      .username {
+        padding-left: 10px;
+        font-weight: bold;
+        color: #2b2b2b;
+      }
+      .table {
+        margin: auto;
+        width: 80%;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <a
+        class="navbar-brand"
+        href="/"
+        style="color: white; font-weight: bold; padding-left: 10px"
+        >Animal Shelter</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/admin/reserved_animals"
+              >Reserved Animals</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <font class="username">Welcome: </font
+    ><span class="username" th:text="${#authentication.getName()}"></span>
+
+    <br /><br />
+    <center>
+      <h5 style="font-family: 'cooper'">Animals present in shelter</h5>
+    </center>
+    <br />
+
+    <center>
+      <div style="display: flex; flex-direction: column">
+        <center>
+          <a th:href="@{'/admin/add_animal'}" class="btn btn-primary btn-sm">
+            Add Animal
+          </a>
+        </center>
+        <br /><br />
+        <form
+          style="position: relative; left: 115px"
+          action="/admin/filter"
+          method="POST"
+        >
+          <div class="row">
+            <div class="col">
+              <labe>Breed</labe>
+              <select style="width: 200px" name="breed" class="form-control">
+                <option selected value="">All</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="col">
+              <label></label>
+              <button
+                style="position: relative; right: 180px; top: 27px"
+                type="submit"
+                class="btn btn-success btn-sm"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </center>
+    <br /><br />
+    <center><font color="red" size="5" th:text="${errorIDF}"></font></center>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Animal Name</th>
+          <th>Breed</th>
+          <th>Date of birth</th>
+          <th>More Details</th>
+          <th>View Accomodations</th>
+          <th>Add Accomodations</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="a : ${All_animals}">
+          <td th:text="${a.name}">Parrot</td>
+          <td th:text="${a.breed}">YES</td>
+          <td th:text="${a.dob}">23/23/2000</td>
+          <td>
+            <a
+              th:href="@{'/admin/animal_details/' + ${a.id}}"
+              class="btn btn-primary btn-sm"
+            >
+              Details
+            </a>
+          </td>
+          <td>
+            <a
+              th:href="@{'/admin/view_accomodation/' + ${a.id}}"
+              class="btn btn-success btn-sm"
+            >
+              View Accomodation
+            </a>
+          </td>
+          <td>
+            <a
+              th:href="@{'/admin/add_accomodation/' + ${a.id}}"
+              class="btn btn-success btn-sm accomodation_id"
+              th:data-id="${a.id}"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal1"
+            >
+              Add Accomodation
+            </a>
+          </td>
+          <td>
+            <a
+              th:href="@{'/admin/delete_animal/' + ${a.id}}"
+              class="btn btn-danger btn-sm"
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Add New Animal
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              name="myForm"
+              th:action="@{/admin/add_animal}"
+              method="POST"
+              onsubmit="return validateForm()"
+            >
+              <div class="row">
+                <div class="col">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    class="form-control"
+                    name="name"
+                    id="name"
+                  />
+                  <font color="red" id="name_error"></font>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Identification code</label>
+                  <input
+                    type="text"
+                    placeholder="Identification code"
+                    class="form-control"
+                    name="identification_code"
+                    id="idf_code"
+                  />
+                  <font color="red" id="idf_code_error"></font>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Ras</label>
+                  <input
+                    type="text"
+                    placeholder="Ras"
+                    class="form-control"
+                    name="ras"
+                    id="ras"
+                  />
+                  <font id="ras_error" color="red"></font>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Sex</label>
+                  <select required name="sex" class="form-control">
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                  </select>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Date of birth</label>
+                  <input type="date" required name="dob" class="form-control" />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Medical expenses</label>
+                  <input
+                    type="number"
+                    required
+                    name="medical_expense"
+                    class="form-control"
+                    placeholder="Medical Expense"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Breed</label>
+                  <select class="form-control" name="breed">
+                    <option disabled selected>Choose Option</option>
+
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <br />
+              
+              <div class="row">
+                <div class="col">
+                  <label>Can be used with young children</label>
+                  <input type="checkbox" name="can_be_used_with_young_children" value="true">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Can be used with older children</label>
+                  <input type="checkbox" name="can_be_used_with_older_children" value="true">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Can with cats</label>
+                  <input type="checkbox" name="can_with_cats" value="true">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Can with dogs</label>
+                  <input type="checkbox" name="can_with_dogs" value="true">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Suitable as an indoor cat</label>
+                  <input type="checkbox" name="suitable_as_an_indoor_cat" value="true">
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!--Insertin accomodation modal-->
+    <div
+      class="modal fade"
+      id="exampleModal1"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Add Accomodation
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="/admin/add_accomodation" method="POST">
+              <div class="row">
+                <div class="col">
+                  <label>Animal ID</label>
+                  <input
+                    type="text"
+                    name="animal_id"
+                    id="animal_id"
+                    placeholder="Animal ID"
+                    required
+                    class="form-control"
+                    readonly
+                    value=""
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Pen Code 1</label>
+                  <input
+                    type="number"
+                    name="penCode1"
+                    max="300"
+                    min="50"
+                    placeholder="Pen Code 1"
+                    required
+                    class="form-control"
+                    value=""
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Pen Code 2</label>
+                  <input
+                    type="number"
+                    name="penCode2"
+                    max="300"
+                    min="50"
+                    placeholder="Pen Code 2"
+                    required
+                    class="form-control"
+                    value=""
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <label>Pen Name</label>
+                  <input
+                    type="text"
+                    name="penName"
+                    placeholder="Pen Code 2"
+                    required
+                    class="form-control"
+                    value=""
+                  />
+                </div>
+              </div>
+              <br />
+              <button type="submit" class="btn btn-success btn-sm">
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
