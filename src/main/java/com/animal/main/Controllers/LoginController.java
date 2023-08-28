@@ -1,16 +1,11 @@
 package com.animal.main.Controllers;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
@@ -26,11 +21,9 @@ public class LoginController {
                 String authorityName = grantedAuthority.getAuthority();
                 if (authorityName.equals("ROLE_ADMIN")) {
                     return "redirect:/admin/";
-                }
-                else if(authorityName.equals("ROLE_USER")) {
+                } else if (authorityName.equals("ROLE_USER")) {
                     return "redirect:/user/";
-                }
-                else{
+                } else {
                     SecurityContextHolder.clearContext();
                     return "LoginForm";
                 }
@@ -40,19 +33,17 @@ public class LoginController {
     }
 
     @RequestMapping("/LoginForm")
-    public String LoginForm(){
+    public String LoginForm() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getName() != null) {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
             for (final GrantedAuthority grantedAuthority : authorities) {
                 String authorityName = grantedAuthority.getAuthority();
                 if (authorityName.equals("ROLE_ADMIN")) {
-                   return "redirect:/admin/";
-                }
-                else if(authorityName.equals("ROLE_USER")) {
+                    return "redirect:/admin/";
+                } else if (authorityName.equals("ROLE_USER")) {
                     return "redirect:/user/";
-                }
-                else{
+                } else {
                     return "LoginForm";
                 }
             }
@@ -62,7 +53,7 @@ public class LoginController {
     }
 
     @RequestMapping("/")
-    public String index(){
+    public String index() {
         return "redirect:/LoginForm";
     }
 

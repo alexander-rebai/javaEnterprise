@@ -95,12 +95,7 @@ public class AdminController {
             return "admin/add_animal"; // Return the form page with errors
         }
 
-        if (adminService.IDF_CODE_already_exists(animal.getIdentification_code()) == null) {
-            adminService.saveAnimal(animal);
-        } else {
-            model.addAttribute("errorIDF", "Identification Code Already Exists");
-            return "admin/add_animal";
-        }
+        adminService.saveAnimal(animal);
         return "redirect:/admin/";
     }
 

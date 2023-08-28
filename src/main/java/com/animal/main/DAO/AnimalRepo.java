@@ -37,4 +37,16 @@ public interface AnimalRepo extends JpaRepository<Animal, Integer> {
                         "where a.user_reserved_id =:user_reserved_id")
         List<Animal> getAllReservedAnimalsByUser(@Param("user_reserved_id") int user_reserved_id);
 
+        @Query("select a from Animal a  " +
+                        "where a.sex =:sex")
+        List<Animal> getAnimalsByGender(@Param("sex") String sex);
+
+        @Query("select a from Animal a  " +
+                        "where a.race =:breed")
+        List<Animal> getAnimalsByRace(@Param("breed") String breed);
+
+        @Query("select a from Animal a  " +
+                        "where a.reserved =:reserved")
+        List<Animal> getAllAnimalsNotyetReserved(@Param("reserved") boolean reserved);
+
 }

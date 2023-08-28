@@ -3,6 +3,7 @@ package com.animal.main;
 import com.animal.main.DAO.AnimalRepo;
 import com.animal.main.DAO.UserRepo;
 import com.animal.main.Entity.User;
+import com.animal.main.perform.AnimalWebClient;
 import com.animal.main.validator.AccommodationValidator;
 import com.animal.main.validator.IdentificationcodeValidator;
 
@@ -26,17 +27,20 @@ public class MainApplication implements CommandLineRunner {
 	}
 
 	@Bean
-	public IdentificationcodeValidator identificationcodeValidator() {
-		return new IdentificationcodeValidator();
-	}
-
-	@Bean
 	public AccommodationValidator accommodationValidator() {
 		return new AccommodationValidator();
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(MainApplication.class, args);
+
+		try {
+			new AnimalWebClient();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("TEST ERROR");
+
+		}
 	}
 
 	@Override

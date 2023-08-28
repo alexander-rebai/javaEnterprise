@@ -78,4 +78,16 @@ public class AdminService {
     public Animal updateAnimal(Animal animal) {
         return animalRepo.save(animal);
     }
+
+    public List<Animal> getAnimalsByGender(String gender) {
+        return animalRepo.getAnimalsByGender(gender);
+    }
+
+    public List<Animal> getAnimalsByRace(String breed) {
+        return animalRepo.getAnimalsByRace(breed);
+    }
+
+    public List<Animal> getAllAnimalsNotyetReserved(boolean reserved) {
+        return animalRepo.getAllAnimalsNotyetReserved(reserved);
+    }
 }

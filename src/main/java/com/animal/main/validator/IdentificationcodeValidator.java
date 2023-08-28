@@ -2,10 +2,22 @@ package com.animal.main.validator;
 
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.animal.main.Service.AdminService;
+
+@Component
 public class IdentificationcodeValidator implements Validator {
+
+    private final AdminService adminService;
+
+    @Autowired
+    public IdentificationcodeValidator(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -63,5 +75,11 @@ public class IdentificationcodeValidator implements Validator {
             System.out.println("Error parsing digits: " + e.getMessage());
             errors.rejectValue("identification_code", "invalidFormat", "Invalid format for digits");
         }
+
+        if (adminService.IDF_CODE_already_exists(value) != null) {
+            System.out.println("idcode exists");
+            errors.rejectValue("identification_code", "already exists", "Identification code already exists");
+        }
+
     }
 }
