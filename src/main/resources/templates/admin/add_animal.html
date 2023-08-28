@@ -243,49 +243,5 @@
         </form>
       </div>
     </center>
-
-    <!-- <script>
-      function validateForm() {
-        const speical_CH = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        const numbers = /^\d+$/;
-        const idf_code_valid =
-          /^(?=[A-Za-z]{3}\d{7}$)([A-Za-z]{3}\d{5})(\d{2})$/;
-
-        let name = document.forms["myForm"]["name"].value;
-        let idf_code = document.forms["myForm"]["idf_code"].value;
-        let race = document.forms["myForm"]["race"].value;
-
-        if (name == "" || speical_CH.test(name) || numbers.test(name)) {
-          document.getElementById("name_error").innerHTML =
-            "Name cannot be empty, cannot contain numbers or special characters";
-          return false;
-        } else {
-          document.getElementById("name_error").innerHTML = "";
-        }
-
-        if (idf_code == "" || !idf_code_valid.test(idf_code)) {
-          document.getElementById("idf_code_error").innerHTML =
-            "Identification code cannot be empty, must consist of 10 characters, the first 3 characters must consist\n" +
-            "of letters, the next 7 of numbers. The last 2 digits are the remainder of the division of the first 5 digits\n" +
-            "by 3. The code must also be unique per animal";
-          return false;
-        } else {
-          document.getElementById("idf_code_error").innerHTML = "";
-        }
-
-        if (speical_CH.test(race) || numbers.test(race)) {
-          document.getElementById("race_error").innerHTML =
-            "race may be empty, may not contain numbers or special characters";
-          return false;
-        } else {
-          document.getElementById("race_error").innerHTML = "";
-        }
-      }
-
-      $(".accomodation_id").click(function () {
-        var id = $(this).attr("data-id");
-        document.getElementById("animal_id").value = id;
-      });
-    </script> -->
   </body>
 </html>

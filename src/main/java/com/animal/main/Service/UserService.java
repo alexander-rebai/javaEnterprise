@@ -3,7 +3,7 @@ package com.animal.main.Service;
 import com.animal.main.DAO.AccomodationRepo;
 import com.animal.main.DAO.AnimalRepo;
 import com.animal.main.DAO.UserRepo;
-import com.animal.main.Entity.Accommodation;
+import com.animal.main.Entity.Accomodation;
 import com.animal.main.Entity.Animal;
 import com.animal.main.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class UserService {
         return list;
     }
 
-    public List<Accommodation> getAccommodationByAnimal_id(int animal_id) {
+    public List<Accomodation> getAccommodationByAnimal_id(int animal_id) {
         return accomodationRepo.getAccommodationByAnimal_id(animal_id);
     }
 

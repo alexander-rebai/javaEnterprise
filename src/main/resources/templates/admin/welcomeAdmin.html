@@ -151,11 +151,8 @@
           </td>
           <td>
             <a
-              th:href="@{'/admin/add_accomodation/' + ${a.id}}"
+              th:href="@{'/admin/add_accommodation/' + ${a.id}}"
               class="btn btn-success btn-sm accomodation_id"
-              th:data-id="${a.id}"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal1"
             >
               Add Accomodation
             </a>
@@ -171,112 +168,5 @@
         </tr>
       </tbody>
     </table>
-
-    <!--Insertin accomodation modal-->
-    <div
-      class="modal fade"
-      id="exampleModal1"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Add Accomodation
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form action="/admin/add_accomodation" method="POST">
-              <div class="row">
-                <div class="col">
-                  <label>Animal ID</label>
-                  <input
-                    type="text"
-                    name="animal_id"
-                    id="animal_id"
-                    placeholder="Animal ID"
-                    required
-                    class="form-control"
-                    readonly
-                  />
-                </div>
-              </div>
-              <br />
-              <div class="row">
-                <div class="col">
-                  <label>Pen Code 1</label>
-                  <input
-                    type="number"
-                    name="penCode1"
-                    max="300"
-                    min="50"
-                    placeholder="Pen Code 1"
-                    required
-                    class="form-control"
-                    value=""
-                  />
-                </div>
-              </div>
-              <br />
-              <div class="row">
-                <div class="col">
-                  <label>Pen Code 2</label>
-                  <input
-                    type="number"
-                    name="penCode2"
-                    max="300"
-                    min="50"
-                    placeholder="Pen Code 2"
-                    required
-                    class="form-control"
-                    value=""
-                  />
-                </div>
-              </div>
-              <br />
-              <div class="row">
-                <div class="col">
-                  <label>Pen Name</label>
-                  <input
-                    type="text"
-                    name="penName"
-                    placeholder="Pen Code 2"
-                    required
-                    class="form-control"
-                    value=""
-                  />
-                </div>
-              </div>
-              <br />
-              <button type="submit" class="btn btn-success btn-sm">
-                Submit
-              </button>
-            </form>
-          </div>
-          <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              const modalTriggerLinks =
-                document.querySelectorAll(".accomodation_id");
-              const animalIdInput = document.getElementById("animal_id");
-
-              modalTriggerLinks.forEach((link) => {
-                link.addEventListener("click", function () {
-                  const animalId = link.getAttribute("data-id");
-                  animalIdInput.value = animalId;
-                });
-              });
-            });
-          </script>
-        </div>
-      </div>
-    </div>
   </body>
 </html>

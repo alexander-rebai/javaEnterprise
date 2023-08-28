@@ -3,9 +3,11 @@ package com.animal.main.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
-public class Accommodation {
+public class Accomodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +20,8 @@ public class Accommodation {
     @Max(value = 300, message = "Value must be at most 300")
     private int penCode2;
 
+    @NotEmpty(message = "Pen Name cannot be empty")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Pen Name should only contain letters")
     private String penName;
     @Column(unique = true, name = "animal_id")
     private int animal_id;
@@ -64,7 +68,7 @@ public class Accommodation {
 
     @Override
     public String toString() {
-        return "Accommodation{" +
+        return "Accomodation{" +
                 "id=" + id +
                 ", penCode1='" + penCode1 + '\'' +
                 ", penCode2='" + penCode2 + '\'' +

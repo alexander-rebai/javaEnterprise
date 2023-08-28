@@ -1,8 +1,9 @@
 package com.animal.main.Controllers;
 
-import com.animal.main.Entity.Accommodation;
+import com.animal.main.Entity.Accomodation;
 import com.animal.main.Entity.Animal;
 import com.animal.main.Service.AdminService;
+import com.animal.main.validator.AccommodationValidator;
 import com.animal.main.validator.IdentificationcodeValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private IdentificationcodeValidator identificationcodeValidator;
+
+    @Autowired
+    private AccommodationValidator accommodationValidator;
 
     @RequestMapping("/")
     public String welcomeUser(Model model) {
@@ -102,15 +106,34 @@ public class AdminController {
 
     @RequestMapping("/view_accomodation/{id}")
     public String getAccomodationByAnimal_id(@PathVariable("id") int animal_id, Model model) {
-        List<Accommodation> list = adminService.getAccommodationByAnimal_id(animal_id);
+        List<Accomodation> list = adminService.getAccommodationByAnimal_id(animal_id);
         model.addAttribute("getAccomodationByAnimalId", list);
         return "admin/view_accomodation";
     }
 
-    @RequestMapping(value = "/add_accomodation", method = RequestMethod.POST)
-    public String add_accomodation(@ModelAttribute("Accomodation") Accommodation accommodation) {
-        adminService.saveAccomodation(accommodation);
+    @RequestMapping(value = "/add_accommodation_form", method = RequestMethod.POST)
+    public String add_accomodation(@Valid Accomodation accomodation,
+            BindingResult bindingResult,
+            Model model) {
+
+        accommodationValidator.validate(accomodation, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            // Ensure the animal ID is included in the model
+            model.addAttribute("animalId", accomodation.getAnimal_id());
+            return "admin/add_accomodation";
+        }
+
+        adminService.saveAccomodation(accomodation);
+
         return "redirect:/admin/";
+    }
+
+    @RequestMapping("/add_accommodation/{id}")
+    public String add_accomodation(@PathVariable("id") int animal_id, Model model) {
+        model.addAttribute("accomodation", new Accomodation());
+        model.addAttribute("animalId", animal_id);
+        return "admin/add_accomodation";
     }
 
     @RequestMapping("/deleteAccomodation/{id}")

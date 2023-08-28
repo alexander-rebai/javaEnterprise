@@ -1,6 +1,6 @@
 package com.animal.main.Controllers;
 
-import com.animal.main.Entity.Accommodation;
+import com.animal.main.Entity.Accomodation;
 import com.animal.main.Entity.Animal;
 import com.animal.main.Entity.User;
 import com.animal.main.Service.UserService;
@@ -50,7 +50,7 @@ public class UserController {
 
     @RequestMapping("/view_accomodation/{id}")
     public String getAccommodationByAnimal_id(@PathVariable("id") int animal_id, Model model) {
-        List<Accommodation> list = userService.getAccommodationByAnimal_id(animal_id);
+        List<Accomodation> list = userService.getAccommodationByAnimal_id(animal_id);
         model.addAttribute("LoggedUser", CurrentUser);
 
         model.addAttribute("getAccomodationByAnimalId", list);
