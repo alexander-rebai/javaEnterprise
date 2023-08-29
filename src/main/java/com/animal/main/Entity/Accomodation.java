@@ -12,16 +12,16 @@ public class Accomodation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Min(value = 50, message = "Value must be at least 50")
-    @Max(value = 300, message = "Value must be at most 300")
+    @Min(value = 50)
+    @Max(value = 300)
     private int penCode1;
 
-    @Min(value = 100, message = "Value must be at least 100")
-    @Max(value = 300, message = "Value must be at most 300")
+    @Min(value = 100)
+    @Max(value = 300)
     private int penCode2;
 
-    @NotEmpty(message = "Pen Name cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Pen Name should only contain letters")
+    @NotEmpty()
+    @Pattern(regexp = "^[a-zA-Z]+$")
     private String penName;
     @Column(unique = true, name = "animal_id")
     private int animal_id;

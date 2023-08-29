@@ -13,13 +13,13 @@ public class Animal {
     private int id;
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z]+", message = "name must be alphanumeric with no special characters or numbers")
+    @Pattern(regexp = "^[a-zA-Z]+")
     private String name;
 
     @Column(unique = true)
     private String identification_code;
 
-    @Pattern(regexp = "^(?:[a-zA-Z]*|[ ]*)$", message = "Race must not contain special characters or numbers")
+    @Pattern(regexp = "^(?:[a-zA-Z]*|[ ]*)$")
     private String race;
 
     private String sex;

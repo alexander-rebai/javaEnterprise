@@ -12,12 +12,19 @@ import java.util.Locale;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+@Configuration
 @SpringBootApplication
-public class MainApplication implements CommandLineRunner {
+public class MainApplication implements CommandLineRunner, WebMvcConfigurer {
 
 	@Bean
 	LocaleResolver localeResolver() {
@@ -27,8 +34,23 @@ public class MainApplication implements CommandLineRunner {
 	}
 
 	@Bean
-	public AccommodationValidator accommodationValidator() {
-		return new AccommodationValidator();
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+		interceptor.setParamName("lang"); // Set the parameter name to change the locale
+		return interceptor;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+	}
+
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("messages"); // Use the basename of your properties files
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
 	}
 
 	public static void main(String[] args) {
